@@ -1,0 +1,128 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="background-color:#F3F781;" >
+        <h3 class="panel-title" ><?php _t('Tasks'); ?></h3>
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table table-contents">
+
+
+            <tbody>
+                <?php
+                foreach (tasks_search_by_controller($args['c']) as $key => $task) {
+
+                    echo '<tr>';
+                    echo '<td colspan="2" > ';
+                    echo tasks_status_field_code('icon', $task["status"]) . " ";
+                    echo '<a href="index.php?c=' . $args["c"] . '&a=details&id=' . $task["doc_id"] . '">' . $task["doc_id"] . '</a>';
+                    echo ' ' . $task["title"] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
+
+                <tr>
+                    <td>
+                        <a data-toggle="modal" data-target="#tasksModal" href="#"><span class="glyphicon glyphicon-plus-sign"></span> <?php _t("Add"); ?></a>
+
+
+                        <?php /**
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tasksModal">
+                          <span class="glyphicon glyphicon-plus-sign"></span>
+                          <?php _t("New tasks"); ?>
+                          </button>
+                         * 
+                         */ ?>
+
+                        <div class="modal fade" id="tasksModal" tabindex="-1" role="dialog" aria-labelledby="tasksModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="tasks_addLabel">
+                                            <?php _t("Add new tasks"); ?>                
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?php include view('tasks', 'form_add_short'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td class="text-right"><a href="index.php?c=tasks"><?php _t("See all tasks"); ?></a></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+                <?php
+        if (modules_field_module('status', "docu")) {
+            echo docu_modal_bloc('tasks', 'index', _menus_get_file_name(__FILE__));
+        }
+        ?>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+<?php
+//vardump($args);
+?>
+<div class="panel panel-default" >
+
+    <div class="panel-heading" style="background-color:#F3F781;" ><?php _t("Tasks"); ?></div>
+    <div class="panel-body">
+        <p>Algo para hacer?</p>
+
+        <?php
+        /**
+         *         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tasksModal">
+          <span class="glyphicon glyphicon-plus-sign"></span>
+          <?php _t("New tasks"); ?>2020
+          </button>
+         */
+        ?>
+
+        <a data-toggle="modal" data-target="#tasksModal" href="#"><span class="glyphicon glyphicon-plus-sign"></span> <?php _t("Add"); ?></a>
+
+        <div class="modal fade" id="tasksModal" tabindex="-1" role="dialog" aria-labelledby="tasksModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="tasks_addLabel">
+                            <?php _t("Add new tasks"); ?>                
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <?php include view('tasks', 'form_add_short'); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- List group -->
+    <ul class="list-group">
+
+        <?php
+        foreach (tasks_search_by_controller_doc_id($args['c'], $args['id']) as $key => $tasks_search_by_controller_doc_id) {
+            echo '<li class="list-group-item">';
+            echo tasks_status_field_code('icon', $tasks_search_by_controller_doc_id["status"]) . " ";
+            echo $tasks_search_by_controller_doc_id["title"];
+            echo '</li>';
+        }
+        ?>
+        <li class="list-group-item"><a href="index.php?c=tasks">See all taks</a></li>
+    </ul>
+</div>
+
