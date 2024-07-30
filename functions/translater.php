@@ -148,8 +148,11 @@ function _tr($frase, $lang = false, $contexto = null) {
             $r = _translations_by_content_language($frase, $language);
         } else {
 
-            // busco en el diccionario             
-            //$tr_from_diccionario = _diccionario_search_translation_by_content_lang($frase , $language);    
+            $translatedFrase = _get_translate_from_api($frase, $language);
+            $r = $translatedFrase;
+
+            // busco en el diccionario
+            //$tr_from_diccionario = _diccionario_search_translation_by_content_lang($frase , $language);
             $tr_from_diccionario = false;
 
             // agrego la traduccion del diccionario a mis traducciones
@@ -163,7 +166,8 @@ function _tr($frase, $lang = false, $contexto = null) {
             // si no hay en la tabla traducciones, busco en la tabla diccionario
             // _translations_add($frase , $language , $frase) ; 
             //$r = _translations_by_content_language($frase , $language) ;
-            $r = "[$frase]";
+
+            //$r = "[$frase]";
         }
         // si no hallo, la registro
     } else {
@@ -242,4 +246,32 @@ function _trt($t, $l = null) {
 
 function pdf_tr($text, $lang = false) {
     return (_tr($text, $lang));
+}
+
+//cmoretti
+function _get_translate_from_api($frase, $language) {
+
+    global $config_api;
+
+    $translatedFrase = "[$frase]";
+    $url = $config_api['url_doc']."&a=_translations&function=search&content=$frase&language=$language";
+    // $url = "https://coop.factuz.com/index.php?c=api&api_key=demo&a=_translations&function=search&content=$frase&language=$language";
+
+    try {
+        $content = @file_get_contents($url);
+        if ($content === false) {
+            logs_save("Error found while searching [$frase] in [$language]. ".error_get_last()['message'], -1);
+        }
+        $content = json_decode($content, true);
+        if(isset($content['translations'])){
+            $translatedFrase = $content['translations'][$language];
+            $frase_id = _translations_add($frase , $language , $translatedFrase);
+            logs_save("Add frase [$frase]", $frase_id);
+        }
+    } catch(Exception $e) {
+        logs_save("Error exception: ".$e->getMessage(), -1);
+
+    }
+    return $translatedFrase;
+
 }

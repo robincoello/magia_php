@@ -101,16 +101,16 @@ function logs_add(
 ) {
     global $db;
 
-    $sql = "INSERT INTO `logs` 
-            (`id`, `level`, `u_id`, `u_rol`, `c`, `a`, `w`, `description`, `doc_id`, `crud`, `error`, `val_get`, `val_post`, `val_request`, `ip4`, `ip6`, `broswer`) VALUES 
-            (:id , :level , :u_id , :u_rol , :c , :a , :w , :description , :doc_id , :crud , :error , :val_get , :val_post , :val_request , :ip4 , :ip6 , :broswer ) ";
+    $sql = "INSERT INTO `logs`
+            (`id`, `level`, `date`, `u_id`, `u_rol`, `c`, `a`, `w`, `description`, `doc_id`, `crud`, `error`, `val_get`, `val_post`, `val_request`, `ip4`, `ip6`, `broswer`) VALUES
+            (:id , :level , :date_ , :u_id , :u_rol , :c , :a , :w , :description , :doc_id , :crud , :error , :val_get , :val_post , :val_request , :ip4 , :ip6 , :broswer ) ";
 
     $req = $db->prepare($sql);
 
     $req->execute(array(
         "id" => null,
         "level" => $level,
-        "date" => date("Y-m-d h:i:s"),
+        "date_" => date("Y-m-d h:i:s"),
         "u_id" => $u_id,
         "u_rol" => $u_rol,
         "c" => $c,
@@ -522,4 +522,32 @@ function logs_list_by_contact_id($contact_id, $limit = 200) {
     ));
     $data = $req->fetchall();
     return $data;
+}
+
+// cmoretti
+function logs_save($description, $doc_id){
+    global $u_id, $u_rol, $c, $a;
+
+    $level = 1; // 5 niveles: 1 bajo, 2 medio, 3 alto, 4 atencion, 5 critico
+    $date = null;
+    $w = null;
+    $description = "$description in $c";
+    $crud = "create";
+    $error = (isset($error)) ? json_encode($error) : null;
+    $val_get = ( isset($_GET) ) ? json_encode($_GET) : null;
+    $val_post = ( isset($_POST) ) ? json_encode($_POST) : null;
+    $val_request = ( isset($_REQUEST) ) ? json_encode($_REQUEST) : null;
+    $ip4 = get_user_ip();
+    $ip6 = get_user_ip6();
+    $broswer = json_encode(get_user_browser()); //https://www.php.net/manual/es/function.get-browser.php
+
+    try {
+        logs_add(
+                $level, $date, $u_id, $u_rol, $c, $a, $w,
+                $description, $doc_id, $crud, $error,
+                $val_get, $val_post, $val_request, $ip4, $ip6, $broswer
+        );
+    } catch (Exception $exc) {
+        $exc->getTraceAsString();
+    }
 }

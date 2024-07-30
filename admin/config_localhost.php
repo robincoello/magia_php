@@ -23,9 +23,10 @@ $config_province = null;
 $config_controller_by_default = "public_html";
 
 $config_app['url'] = "http://localhost/factuz/index.php?c=app";
-$config_api["apy_key"] = "YOUR_API_KEY";
-$config_api["url_doc"] = "http://localhost/factuz/index.php?api_key=" . $config_api["apy_key"] . "&c=api";
-//    
+$config_api["apy_key"] = "demo";
+$config_api["url_doc"] = "https://coop.factuz.com/index.php?api_key==" . $config_api["apy_key"] . "&c=api";
+
+//
 //BANK
 $config_secure_bank['bank'] = "BNP";
 $config_secure_bank['account_number'] = "BE32 1234 5698 4587";
