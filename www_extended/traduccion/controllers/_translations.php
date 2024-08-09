@@ -143,13 +143,13 @@ if (!$error) {
 ################################################################################
 ################################################################################
 
-function extractQuotedText($input) {
+function api_extract_quoted_text($input) {
     if (preg_match('/"([^"]+)"/', $input, $matches)) {
         return $matches[1];
     }
     return null;
 }
-function api_curlRequest($url, $i, $attempts) {
+function api_curl_request($url, $i, $attempts) {
     $i++;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -170,7 +170,7 @@ function api_curlRequest($url, $i, $attempts) {
             return null;
         } else {
             usleep(1500000); 
-            return api_curlRequest($url, $i, $attempts);
+            return api_curl_request($url, $i, $attempts);
         }
     } else {
         return $result;
@@ -202,7 +202,7 @@ function api_fieldsString($fields) {
     return rtrim($fields_string, '&');
 }
 
-function api_curlRequest_for_translate($url, $fields, $fields_string, $i, $attempts) {
+function api_curl_request_for_translate($url, $fields, $fields_string, $i, $attempts) {
     $i++;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -223,7 +223,7 @@ function api_curlRequest_for_translate($url, $fields, $fields_string, $i, $attem
             return null;
         } else {
             usleep(1500000); // timeout 1.5 sec
-            return api_curlRequest_for_translate($url, $fields, $fields_string, $i, $attempts);
+            return api_curl_request_for_translate($url, $fields, $fields_string, $i, $attempts);
         }
     } else {
         return $result;
@@ -247,7 +247,7 @@ function api_requestTranslation($source, $target, $text, $attempts) {
     $fields_string = api_fieldsString($fields);
 
 
-    $content_ = api_curlRequest_for_translate($url, $fields, $fields_string, 0, $attempts);
+    $content_ = api_curl_request_for_translate($url, $fields, $fields_string, 0, $attempts);
  
     return api_getSentencesFromJSON($content_);
 
@@ -279,9 +279,10 @@ function api_translations_search_by_content($content) {
     
     $url = $base_url . '?' . $query_string;
     
-    $response = api_curlRequest($url, 0, $attempts);
+    $response = api_curl_request($url, 0, $attempts);
+    
 
-    if(extractQuotedText($response) == 'Not find'){
+    if(api_extract_quoted_text($response) == 'Not find'){
         $source = 'es';
         $target = 'fr';
         $language  = $_GET['language'];
@@ -345,7 +346,7 @@ function api_translations_search_by_content($content) {
     }
 
 
-    return api_curlRequest($url, 0, $attempts);
+    return api_curl_request($url, 0, $attempts);
 
 }
 
