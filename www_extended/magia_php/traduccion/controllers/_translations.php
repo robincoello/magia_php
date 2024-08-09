@@ -323,44 +323,14 @@ function api_translations_search_by_content($content) {
     return api_curlRequest($url, 0, $attempts);
 }
 
-function api_search_word_in_table($content) {
-    global $db;
-    try {
-        $sql = "SELECT * FROM _content WHERE frase LIKE :content";
-        $query = $db->prepare($sql);
-        $query->bindValue(':content', '%' . $content . '%', PDO::PARAM_STR);
-        $query->execute();
-        $data = $query->fetchAll();
-        return json_encode($data);
-    } catch (PDOException $e) {
-        echo 'Database error: ' . $e->getMessage();
-        return json_encode([]);
-    }
-}
 
-function api_search_word_in_table_translations($content) {
-    global $db;
-    try {
-        $sql = "SELECT * FROM _translations WHERE content LIKE :content";
-        $query = $db->prepare($sql);
-        $query->bindValue(':content', '%' . $content . '%', PDO::PARAM_STR);
-        $query->execute();
-        $data = $query->fetchAll();
-        return json_encode($data);
-    } catch (PDOException $e) {
-        echo 'Database error: ' . $e->getMessage();
-        return json_encode([]);
-    }
-}
+
+
 
 $content = isset($_GET['content']) ? $_GET['content'] : '';
 if ($content) {
     api_translations_search_by_content($content);
-    echo '<pre>';
-    echo api_search_word_in_table($content);
-    echo '<br>';
-    echo api_search_word_in_table_translations($content);
-    echo '</pre>';
+
 }
 
 
