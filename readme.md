@@ -1,8 +1,6 @@
 # Magia_PHP
+Vete al nuevo repo 
+https://github.com/MagiaPHP/magiaphp
 
-## 
-
-* login : demo
-* pass: MagiaPHP123A
 
 
