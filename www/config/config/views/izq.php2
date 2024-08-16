@@ -1,0 +1,158 @@
+<?php
+
+if (modules_field_module('status', 'accounting')) { ?>
+<div class="list-group">
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array('tax')))? " active ":""; ?>">
+        <?php _menu_icon("top", "accounting"); ?>
+        <?php echo _t("Accounting"); ?>
+    </a>
+    <a href="index.php?c=tax" class="list-group-item"><?php _t("Tax"); ?></a>
+</div>
+<?php } ?>
+
+
+
+
+
+
+<?php if (modules_field_module('status', 'audio')) { ?>
+<div class="list-group">
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array(
+            'orders_status',
+            'orders_vias',
+            'remake_motifs'
+        )))? " active ":""; ?>">
+            <?php _menu_icon("top", "orders"); ?>
+            <?php echo _t("Audio"); ?>
+    </a>
+    <a href="index.php?c=orders_status" class="list-group-item"><?php _t("Orders status"); ?></a>
+    <a href="index.php?c=orders_vias" class="list-group-item"><?php _t("Orders vias"); ?></a>
+    <a href="index.php?c=remake_motifs" class="list-group-item"><?php _t("Remake motifs"); ?></a>
+</div>
+<?php } ?>
+
+
+
+
+<?php if (modules_field_module('status', 'products')) { ?>
+
+<div class="list-group">
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array(
+            'products_categories',
+            'products_stock',
+            
+        )))? " active ":""; ?>">
+
+
+        <?php _menu_icon("top", "products"); ?>
+        <?php echo _t("Products"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=products" 
+        class="list-group-item">
+            <?php _t("Products"); ?>
+    </a>
+    <a 
+        href="index.php?c=products_categories" 
+        class="list-group-item">
+            <?php _t("Categories"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=products_stock" 
+        class="list-group-item">
+            <?php _t("Stock"); ?>
+    </a>
+</div>
+<?php } ?>
+
+
+
+
+<?php if (permissions_has_permission($u_rol, 'system', 'read')) { ?>
+<div class="list-group">
+
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array(
+            '_options',
+            'transport',
+            'countries',
+            'holidays',
+            'config',
+            
+        )))? " active ":""; ?>">
+
+        <?php _menu_icon("top", "system"); ?>
+        <?php echo _t("Sistem"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=_options" 
+        class="list-group-item">
+            <?php _t("Options"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=transport" 
+        class="list-group-item">
+        <?php _menu_icon("top", "transport"); ?>
+            <?php _t("Transport"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=countries" 
+        class="list-group-item">
+            <?php _t("Countries"); ?>
+    </a>
+
+
+    <a 
+        href="index.php?c=holidays" 
+        class="list-group-item">
+            <?php _t("Holidays"); ?>
+    </a>
+
+    <a 
+        href="index.php?c=config&a=debug_lang" 
+        class="list-group-item">
+            <?php _t("Debug lang"); ?>
+    </a>
+</div>
+
+<?php } ?>
+
+
+
+
+
+<?php if (permissions_has_permission($u_rol, 'doc_models', 'read')) { ?>
+<div class="list-group">
+
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array(
+           'doc_models',                       
+        )))? " active ":""; ?>">
+
+        <?php _menu_icon("top", "doc_models"); ?>
+        <?php echo _t("Doc models"); ?>
+    </a>
+    <a href="index.php?c=doc_models" class="list-group-item"><?php _t("List"); ?></a>
+</div>
+<?php } ?>
+
+
+
+
+
+
+<div class="list-group">
+
+    <a href="#" class="list-group-item <?php echo ( in_array($c, array(
+           'modules',                       
+        )))? " active ":""; ?>">
+
+        <?php _menu_icon("top", 'modules'); ?>
+        <?php echo _t("Modules"); ?>
+    </a>
+    <a href="index.php?c=modules" class="list-group-item"><?php _t("List"); ?></a>
+    <a href="index.php?c=modules&a=add" class="list-group-item"><?php _t("Add"); ?></a> 
+</div>
