@@ -1,0 +1,28 @@
+<?php
+
+if (!permissions_has_permission($u_rol, $c, "update")) {
+    header("Location: index.php?c=home&a=no_access");
+    die("Error has permission ");
+}
+
+$error = array();
+
+$sms = (isset($_REQUEST["sms"])) ? clean($_REQUEST["sms"]) : false;
+
+$m = array();
+
+switch ($sms) {
+    case 1:
+        array_push($m, "Update");
+        break;
+
+    default:
+        break;
+}
+
+
+if (!$error) {
+
+
+    include view('config', "debug_lang");
+}
